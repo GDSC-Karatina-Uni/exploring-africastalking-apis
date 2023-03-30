@@ -71,4 +71,4 @@ python3 app.py
 python3 app.py
 ```
 
-<img src="/ussd/sample_response_ussd.png" alt="Sample Response" width="500"/>
+<img src="/ussd-flask/sample_response_ussd.png" alt="Sample Response" width="500"/>
