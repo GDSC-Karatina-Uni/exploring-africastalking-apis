@@ -7,11 +7,21 @@ from flask import Flask, request
 import africastalking
 # sqlite3
 import sqlite3
+from flask import g
 
-# create a database connection
-conn = sqlite3.connect('ussd.db')
-# create a cursor
-c = conn.cursor()
+database = 'ussd.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(database)
+    return db
+
+def close_db(e=None):
+    db = g.pop('db', None)
+
+    if db is not None:
+        db.close()
 
 # Initialize the SDK
 username = "sandbox"    # use 'sandbox' for development in the test environment
@@ -49,12 +59,25 @@ def ussd_callback():
         if text.split("*")[0] == "1":
             # Business logic for second level response
             name = text.split("*")[1]
-            response = "END You have been registered successfully as " + name
+            # Save the user to the database
+            c = get_db().cursor()
+            c.execute("INSERT INTO membership (name, phone_number) VALUES (?, ?)", (name, phone_number))
+            get_db().commit()
+            response = "END You have been registered successfully"
+
 
     # Print the response onto the page so that our gateway can read it
     return response
 
+app.teardown_appcontext(close_db)
 
+
+@app.route('/registered/', methods=['GET'])
+def registered():
+    c = get_db().cursor()
+    c.execute("SELECT * FROM membership")
+    members = c.fetchall()
+    return str(members)
 
 
 if __name__ == '__main__':
