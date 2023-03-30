@@ -28,3 +28,10 @@ Run the script using the following command:
 python3 send_sms.py
 ```
 
+### Sample Response
+
+```bash
+python3 send_sms.py
+```
+
+<img src="/sms/sample_response.png" alt="Sample Response" width="500"/>
