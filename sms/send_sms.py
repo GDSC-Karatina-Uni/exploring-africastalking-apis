@@ -17,7 +17,15 @@ recipients= []
 with open("recipients.txt", "r") as f:
     for line in f:
         # pick only the last 9 digits removing any whitespaces
-        recipients.append(f"+254{line.strip()[-9:]}")
+        num = line
+        # remove spaces
+        num = num.strip().replace(" ", "")
+        # add the country code
+        num = f"+254{num[-9:]}"
+        print(num)
+        # add to the list
+        recipients.append(num)
+
         
 message = "Hello, from GDSC KARATINA UNIVERSITY!"
 
