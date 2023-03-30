@@ -35,3 +35,6 @@ python3 send_sms.py
 ```
 
 <img src="/sms/sample_response.png" alt="Sample Response" width="500"/>
+
+
+## USSD(Unstructured Supplementary Service Data) using Africa's Talking USSD API with Python
